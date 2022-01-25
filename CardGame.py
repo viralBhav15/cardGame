@@ -26,7 +26,7 @@ class Deck(object):         #Creating the deck class which is the most important
             self.cards[i], self.cards[r] = self.cards[r], self.cards[i] #creating the random shuffle formula
 
     def drawCard(self):     #Being able to draw the cards from the deck
-        return self.cards.pop()
+        return self.cards.pop() 
 
 class Player(object):       #Creating the player class which will be used by both the player and the dealer
     def __init__(self):     #initializing the class
@@ -46,9 +46,25 @@ class Player(object):       #Creating the player class which will be used by bot
             #print(card.show())
             sum += card.show() 
         return sum
-    
+
+username = "lol"    #creating username
+password = "1234"   #creating pasword
+correct = True
+while correct:      #While loop to make them enter the correct information to pass through
+    userType = input("Please enter you Username: ")
+    userPass = input("Please enter you Password: ") 
+    correct = False
+
+    if userType != username and userPass != password:
+        print ("Incorrect Information, Check your username and password")
+        correct = True
+
 print("Welcome to BlackJack!")  #Title sentence
 print()
+
+dealerWins = 0      #counters for the wins for the dealer and the player.
+playerWins = 0
+ties = 0
 
 running = True    #Creating the main loop for the game to run
 while running:    #While loop to make it run
@@ -83,12 +99,14 @@ while running:    #While loop to make it run
     #Creating all the If statements to see who is the winner
     if sumOfDealer == 21:     #Checking if the dealer wins
         print("Dealer has gotten 21. Dealer Wins!")
+        dealerWins += 1
         break
     elif sumOfDealer > 21:    #Checking if the dealer has busted
         print ("The dealer now has the following cards: ")
         dealer.showHand()  #Showing which cards the dealer has 
         print (newRan)
         print("The dealer has busted! You win!")
+        playerWins += 1
         break
 
     while sumOfPlayer < 21:  #Letting the player choose if they want to "hit" or "stay"
@@ -102,15 +120,18 @@ while running:    #While loop to make it run
             if sumOfPlayer > 21:  #Checking if player sum goes over 21
                 print ("Your total was " + str(sumOfPlayer) + ".")
                 print("You busted. The dealer wins.")
+                dealerWins += 1
                 break
             elif sumOfPlayer == 21:  #Checking if the player has gotten blackjack
                 print ("That's BLACKJACK!!! You win!")
+                playerWins += 1
                 break
         
         elif sumOfPlayer == sumOfDealer:  #Checking if there has been a tie
             print("The dealer had a total of " + str(sumOfDealer) + ".")
             print("You had a total of " + str(sumOfPlayer) + ".")
             print("It's a Tie! No one wins!")
+            ties += 1
             break
 
         else:  #When the player does not choose "Hit"
@@ -118,17 +139,28 @@ while running:    #While loop to make it run
             print ("You have a total of "+ str(sumOfPlayer) + ".")         #Showing the total sum of the player
             if sumOfDealer > sumOfPlayer:   #Checking if the dealer wins
                 print ("Dealer wins. Nice try.")
+                dealerWins += 1
                 break
             else:
                 print ("You win!!! Good job!")  #When the player wins
+                playerWins += 1
                 break
 
-print (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-'''playAgain = input("Would you like to play again? (y,n) ").lower()
-if playAgain == "y":
-    running = True
-else:'''
-print ("Thank you for playing!")
+    print (">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+    playAgain = input("Would you like to play again? (y,n) ").lower()
+    if playAgain == "y":
+        running = True
+    else:
+        print ("Thank you for playing!")
+        if dealerWins > 1:
+            print ("The Dealer won a total of " + str(dealerWins) + " times!")
+        else:
+            print ("The Dealer only got " + str(dealerWins) + " victory!")
+        if playerWins > 1:
+            print ("You won a total of " + str(playerWins) + " times!")
+        else:
+            print ("You only won " + str(playerWins) + " time!")
+        print ("You and the dealer both tied " + str(ties) + " times!")
 
  
 
